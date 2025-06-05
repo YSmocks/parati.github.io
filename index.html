@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti: Un Amor Inolvidable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Pastel Dream -->
+    <!-- Application Structure Plan: A dynamic, single-page narrative designed for maximum emotional impact. Each section serves as a visually distinct "chapter," leveraging full-height views and advanced parallax backgrounds for an immersive experience. Content reveals with dramatic, non-subtle animations, creating a powerful narrative flow. The absence of a navbar encourages a linear, guided journey through the declaration, while ensuring full responsiveness for all devices. -->
+    <!-- Visualization & Content Choices: The core content is a profound personal narrative, not data. Visualizations are represented by high-impact UI/UX. Info: Deep emotional text, cherished memories, core personal attributes. Goal: Evoke strong emotions and create an unforgettable declaration. Viz/Method: Aggressive section reveal animations (transform + opacity), dynamic parallax backgrounds with strong visual themes (using placeholder images to represent this), pronounced hover/click effects with explicit RGB glowing contours and 3D transformations on interactive elements, and a large, animated "Te Amo" finale. Interaction: Scrolling reveals the narrative, image clicks trigger a dramatic modal. Justification: These choices directly address the user's explicit demand for "epic," "incredible", "no subtle", and "above other" effects, focusing on a premium, visually stunning, and emotionally resonant experience. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #F8F4F1; /* Soft Cream for pastel background */
+            color: #5D5C61; /* Muted Charcoal/Grey for primary text */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: #8C78B5; /* Soft Lavender for headings */
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            position: relative; /* Needed for z-index of content */
+            z-index: 2; /* Content above background */
+        }
+
+        /* Section Visibility Animations (Dramatic) */
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(80px) scale(0.9);
+            filter: blur(8px);
+            transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        filter 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        /* Section Styles with Parallax Backgrounds (Enhanced) */
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 24px;
+            background-attachment: fixed; /* Parallax effect */
+            background-position: center center;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden; /* Ensure parallax layers are contained */
+        }
+
+        /* Background Overlay for text readability (adjusted for lighter backgrounds) */
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(248, 244, 241, 0.3); /* Lighter overlay for text contrast on pastel backgrounds */
+            z-index: 1; /* Below content, above background image */
+        }
+
+        /* Specific Background Images & Fallback Colors (Updated to Pastel, no text) */
+        #amanecer {
+            background-image: url('https://placehold.co/1920x1080/C8A2C8'); /* Thistle */
+            background-color: #C8A2C8;
+        }
+
+        #melodia {
+            background-image: url('https://placehold.co/1920x1080/B0E0E6'); /* Powder Blue */
+            background-color: #B0E0E6;
+        }
+
+        #recuerdos {
+            background-image: url('https://placehold.co/1920x1080/FFB6C1'); /* Light Pink */
+            background-color: #FFB6C1;
+        }
+        
+        #eco {
+            background-image: url('https://placehold.co/1920x1080/ADD8E6'); /* Light Blue */
+            background-color: #ADD8E6;
+        }
+        
+        #horizonte {
+            background-image: url('https://placehold.co/1920x1080/90EE90'); /* Light Green */
+            background-color: #90EE90;
+        }
+
+        #declaracion {
+            min-height: 70vh;
+            background-image: url('https://placehold.co/1920x1080/FFE4E1'); /* Misty Rose */
+            background-color: #FFE4E1;
+            background-position: bottom center;
+        }
+
+        /* Text and Heading Styles */
+        .main-heading { /* h1 */
+            font-size: 3.5rem; /* Increased size */
+            font-weight: 900; /* Bolder */
+            line-height: 1.2;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.2); /* Softer shadow for pastel */
+            color: #8C78B5; /* Soft Lavender */
+        }
+
+        .section-heading { /* h2 */
+            font-size: 2.75rem; /* Increased size */
+            font-weight: 800; /* Bolder */
+            line-height: 1.2;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+            color: #8C78B5; /* Soft Lavender */
+        }
+
+        .card-heading { /* h3 */
+            font-size: 1.875rem; /* Increased size */
+            font-weight: 700; /* Bolder */
+            color: #7A788C; /* Slightly darker grey for contrast on cards */
+        }
+
+        .intro-text, .declaration-text {
+            color: #7A788C; /* Slightly lighter muted grey */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Softer shadow */
+        }
+
+        .final-declaration { /* Te Amo (Explosive Neon Red) */
+            margin-top: 80px; /* More spacing */
+            font-size: 4.5rem; /* Larger initial size */
+            font-weight: 900;
+            letter-spacing: 0.1em; /* More tracking */
+            color: #FF3333; /* Bright Red */
+            text-shadow: 0 0 10px #FF3333, /* Base red glow */
+                         0 0 20px #FF3333, /* Stronger red glow */
+                         0 0 40px #FF0000, /* Core red for intensity */
+                         0 0 80px #FF0000, /* Wider red glow */
+                         0 0 120px #FF6666; /* Diffused lighter red for halo */
+        }
+
+        .quote-text { /* italic text in eco */
+            margin-top: 60px; /* More spacing */
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #6C7A89; /* Cadet Grey for readability */
+            padding-left: 24px;
+            padding-right: 24px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+        }
+        .quote-author {
+            margin-top: 24px;
+            font-size: 1.25rem;
+            font-weight: 300;
+            font-style: normal;
+            color: #7A788C; /* Consistent lighter muted grey */
+        }
+
+        /* Scroll Down Arrow (More prominent) */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-20px); opacity: 0.7; }
+        }
+        .animate-bounce-subtle {
+            margin-top: 80px;
+            animation: bounce 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More bouncy easing */
+        }
+        .animate-bounce-subtle svg {
+            width: 48px; /* Larger */
+            height: 48px;
+            color: #FFDAB9; /* Peach Puff */
+            filter: drop-shadow(0 0 5px rgba(255,218,185,0.5));
+        }
+
+        /* Essence Cards (Enhanced Hover) */
+        .essence-grid {
+            margin-top: 64px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        .essence-card {
+            background-color: rgba(220, 240, 250, 0.3); /* Light pastel blue tint */
+            border: 1px solid rgba(220, 240, 250, 0.4);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.4s ease-in-out, background-color 0.3s ease-in-out;
+            border-radius: 1rem; /* More rounded */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Softer shadow */
+            padding: 32px;
+            text-align: center;
+            backdrop-filter: blur(5px); /* Frosted glass effect */
+            color: #5D5C61; /* Muted Charcoal/Grey */
+        }
+        .essence-card:hover {
+            transform: translateY(-10px) scale(1.02); /* More lift and subtle scale */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Softer shadow */
+            background-color: rgba(220, 240, 250, 0.5); /* More opaque on hover */
+        }
+        .essence-card p {
+            margin-top: 16px;
+            font-size: 1rem;
+            color: #5D5C61; /* Muted Charcoal/Grey */
+        }
+
+        /* Gallery Grid (3D Context) */
+        .gallery-grid {
+            margin-top: 64px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            perspective: 1500px; /* Stronger perspective for more dramatic 3D */
+            perspective-origin: center center; /* Center the perspective origin */
+        }
+
+        /* Gallery Item Wrapper (3D Transformable and Z-index prioritized) */
+        .gallery-item-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease-out, z-index 0.01s linear 0.2s; /* Added z-index transition delay */
+            padding: 2px; /* VERY Reduced padding for THINNER visual border */
+            background-color: rgba(220, 240, 250, 0.2); /* Very light pastel tint for wrapper background */
+            transform-style: preserve-3d; /* CRUCIAL for child 3D transforms */
+            z-index: 1; /* Default z-index, lower than active */
+        }
+
+        .gallery-item-wrapper:hover {
+            transform: rotateY(15deg) scale(1.1) translateZ(80px); /* More dramatic 3D tilt and lift */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7); /* Deeper shadow for 3D effect */
+            z-index: 10; /* Higher z-index to appear on top */
+        }
+        .gallery-item-wrapper.rgb-active { /* Active state for mobile touch */
+             transform: rotateY(15deg) scale(1.1) translateZ(80px);
+             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+             z-index: 10; /* Higher z-index to appear on top */
+        }
+
+        /* The RGB Glow Effect with Pastel Colors and More Visible Intensity */
+        .gallery-item-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -12px; /* Larger offset for wider aura (2px more than before) */
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            background: radial-gradient(circle at center, 
+                                rgba(255, 192, 203, 0.9) 0%, /* Pastel Pink - Higher opacity */
+                                rgba(255, 223, 186, 0.85) 15%, /* Pastel Peach - Higher opacity */
+                                rgba(200, 255, 200, 0.75) 30%, /* Pastel Light Green - Higher opacity */
+                                rgba(173, 216, 230, 0.65) 45%, /* Pastel Light Blue - Higher opacity */
+                                rgba(221, 160, 221, 0.55) 60%, /* Pastel Light Purple - Higher opacity */
+                                rgba(255, 192, 203, 0.45) 100%); /* Pastel Pink again */
+            background-size: 300% 300%; /* Large background for dynamic movement */
+            border-radius: 1rem; /* Adjusted for wrapper border-radius + offset */
+            z-index: -1; /* Behind the image */
+            opacity: 0;
+            transform: scale(0.7) rotate(0deg); /* Initial scale and rotation */
+            animation: radial-rgb-shimmer 4s linear infinite, rgb-burst-pulse 1.5s infinite alternate; /* Faster pulse */
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backface-visibility: hidden; /* Prevent flickering on rotation */
+            will-change: transform, opacity, background-position, filter; /* Optimize animations */
+        }
+
+        .gallery-item-wrapper:hover::before,
+        .gallery-item-wrapper.rgb-active::before { /* rgb-active for mobile touch */
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Keyframes for the RGB glow pulse with pastel colors - Even More Intense */
+        @keyframes rgb-burst-pulse {
+            0% { filter: brightness(1) drop-shadow(0 0 12px rgba(255,192,203,0.95)) drop-shadow(0 0 24px rgba(255,223,186,0.8)); } /* Pink/Peach */
+            25% { filter: brightness(1.4) drop-shadow(0 0 18px rgba(200,255,200,0.95)) drop-shadow(0 0 36px rgba(173,216,230,0.8)); } /* Light Green/Light Blue */
+            50% { filter: brightness(1.8) drop-shadow(0 0 24px rgba(221,160,221,0.95)) drop-shadow(0 0 48px rgba(255,192,203,0.8)); } /* Light Purple/Pink */
+            75% { filter: brightness(1.4) drop-shadow(0 0 18px rgba(255,223,186,0.95)) drop-shadow(0 0 36px rgba(200,255,200,0.8)); } /* Peach/Light Green */
+            100% { filter: brightness(1) drop-shadow(0 0 12px rgba(255,192,203,0.95)) drop-shadow(0 0 24px rgba(255,223,186,0.8)); } /* Pink/Peach */
+        }
+
+        /* Gallery Image (itself within 3D space) - Minimal Distortion */
+        .gallery-item {
+            display: block;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem; /* Image itself still rounded */
+            position: relative;
+            z-index: 1; /* Above the ::before pseudo-element */
+            filter: grayscale(20%) brightness(0.8);
+            transition: filter 0.3s ease-in-out, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smooth transition for inner image transform */
+            will-change: filter, transform; /* Optimize animations */
+        }
+
+        .gallery-item-wrapper:hover .gallery-item,
+        .gallery-item-wrapper.rgb-active .gallery-item {
+            /* Minimal distortion and color shifts */
+            filter: grayscale(0%) brightness(1.02) contrast(1.02); /* Very subtle color enhancement */
+            transform: translateZ(0) translateX(0) translateY(0) skewX(0deg); /* Practically no distortion */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding-top: 40px; /* Increased padding */
+            padding-bottom: 40px;
+            font-size: 0.95rem; /* Slightly larger text */
+            color: #5D5C61; /* Muted Charcoal/Grey */
+            background-color: #E0E0E0; /* Lighter footer background */
+            width: 100%;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2); /* Softer shadow */
+            position: relative;
+            z-index: 1; /* Ensure it's above other elements if any overlap */
+        }
+        footer p {
+            margin-bottom: 0;
+            color: #5D5C61;
+        }
+        footer p:last-child {
+            margin-top: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Modal */
+        #modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.95); /* Even darker overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* Highest z-index */
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.4s forwards;
+        }
+        #modal > div {
+            background-color: #EFEFEF; /* Lighter modal background */
+            padding: 24px; /* Increased padding */
+            border-radius: 1rem; /* More rounded */
+            position: relative;
+            max-width: 95%; /* Wider modal */
+            max-height: 95vh; /* Taller modal */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); /* Softer shadow */
+            animation: zoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        #modal-close {
+            position: absolute;
+            top: -20px; /* Further out */
+            right: -20px;
+            height: 50px; /* Larger button */
+            width: 50px;
+            font-size: 2.2rem; /* Larger icon */
+            background-color: #FFB3BA; /* Blush Pink button */
+            color: #5D5C61; /* Muted Charcoal/Grey text */
+            border: 2px solid #FFB3BA; /* Blush Pink border */
+            border-radius: 9999px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.4s ease-in-out;
+            cursor: pointer;
+        }
+        #modal-close:hover {
+            transform: scale(1.15) rotate(180deg); /* More aggressive spin and zoom */
+            background-color: #FFFFFF; /* White on hover */
+            color: #8C78B5; /* Lavender on hover */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        #modal-image {
+            border-radius: 0.75rem;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 80vh;
+            display: block; /* Remove extra space below image */
+            margin: 0 auto; /* Center image */
+        }
+
+        /* Modal Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes zoomOut {
+            from { opacity: 1; }
+            to { transform: scale(0.7); opacity: 0; }
+        }
+
+        /* Animation "Te Amo" (Explosive) */
+        @keyframes pulse-grow {
+            0% { transform: scale(1); text-shadow: 0 0 15px rgba(255,51,51,0.7), 0 0 30px rgba(255,0,0,0.5); } /* Red neon glow */
+            25% { transform: scale(1.15); text-shadow: 0 0 25px rgba(255,51,51,0.9), 0 0 50px rgba(255,0,0,0.7), 0 0 75px rgba(255,0,0,0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(255,51,51,0.8), 0 0 40px rgba(255,0,0,0.6); }
+            75% { transform: scale(1.1); text-shadow: 0 0 20px rgba(255,51,51,0.8), 0 0 40px rgba(255,0,0,0.6), 0 0 60px rgba(255,0,0,0.4); }
+            100% { transform: scale(1); text-shadow: 0 0 15px rgba(255,51,51,0.7), 0 0 30px rgba(255,0,0,0.5); }
+        }
+        .animate-pulse-grow {
+            animation: pulse-grow 3s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More dramatic timing */
+        }
+
+        /* Media Queries for Responsiveness (Pure CSS) */
+
+        /* Small screens (sm: >= 640px) */
+        @media (min-width: 640px) {
+            .main-heading { font-size: 4.5rem; } /* sm:text-5xl */
+            .section-heading { font-size: 3.5rem; } /* sm:text-4xl */
+            .card-heading { font-size: 2rem; } /* sm:text-2xl */
+            .intro-text { font-size: 1.25rem; } /* sm:text-lg */
+            .declaration-text { font-size: 1.6rem; } /* sm:text-2xl */
+            .final-declaration { font-size: 5.5rem; } /* sm:text-7xl */
+            .quote-text { font-size: 1.75rem; } /* sm:text-2xl */
+            .quote-author { font-size: 1.1rem; } /* sm:text-lg */
+
+            .animate-bounce-subtle svg {
+                width: 55px; /* sm:w-10 */
+                height: 55px; /* sm:h-10 */
+            }
+
+            .essence-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            .essence-card {
+                padding: 32px;
+            }
+            .essence-card p {
+                font-size: 1.1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+            .gallery-item {
+                height: 220px; /* Adjust height */
+            }
+            #modal > div {
+                max-width: 768px;
+            }
+        }
+
+        /* Medium screens (md: >= 768px) */
+        @media (min-width: 768px) {
+            .main-heading { font-size: 6rem; } /* md:text-7xl */
+            .section-heading { font-size: 4.5rem; } /* md:text-5xl */
+            .card-heading { font-size: 2.25rem; } /* md:text-3xl */
+            .intro-text { font-size: 1.4rem; } /* md:text-xl */
+            .declaration-text { font-size: 1.8rem; } /* md:text-4xl */
+            .final-declaration { font-size: 7rem; } /* md:text-9xl */
+
+            section {
+                padding: 120px 24px;
+            }
+            .essence-grid {
+                gap: 50px;
+            }
+            .gallery-grid {
+                gap: 30px;
+            }
+            .gallery-item {
+                height: 250px; /* Adjust height */
+            }
+        }
+
+        /* Large screens (lg: >= 1024px) */
+        @media (min-width: 1024px) {
+            .essence-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .essence-card {
+                padding: 40px;
+            }
+            .essence-card h3 {
+                font-size: 2.5rem;
+            }
+            .essence-card p {
+                font-size: 1.25rem;
+            }
+            .gallery-item {
+                height: 280px; /* Adjust height */
+            }
+        }
+
+        /* Extra large screens (xl: >= 1280px) */
+        @media (min-width: 1280px) {
+            .main-heading { font-size: 7.5rem; }
+            .section-heading { font-size: 5.5rem; }
+            .intro-text { font-size: 1.5rem; }
+            .declaration-text { font-size: 2rem; }
+            .final-declaration { font-size: 9rem; }
+            .quote-text { font-size: 2rem; }
+            .quote-author { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body class="scroll-smooth">
+    <audio src="audio.mp3" autoplay autoplay></audio>
+    <main>
+        
+        <section id="amanecer" class="section-target">
+            <div class="section-hidden container">
+                <h1 class="main-heading">El Amanecer de Mi Corazón</h1>
+                <p class="intro-text">Antes de ti, mi mundo era un lienzo en blanco, esperando el color de tu presencia. No sabía que existía una luz tan pura y transformadora, capaz de redefinir cada amanecer y llenar mi existencia de un propósito tan grandioso como el amor que siento por ti.</p>
+                <div class="animate-bounce-subtle">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="melodia" class="section-target">
+            <div class="section-hidden container">
+                <h2 class="section-heading">La Melodía de Tu Alma</h2>
+                <p class="intro-text">Hay un universo vibrante en cada fibra de tu ser que me fascina y me cautiva sin cesar. No son solo tus cualidades, sino la esencia misma de quién eres, la que se ha convertido en la sinfonía más exquisita y resonante que jamás ha existido en lo más profundo de mi ser.</p>
+                <div class="essence-grid">
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Sonrisa Explosiva</h3>
+                        <p>Esa curva que desarma mis defensas, un destello de pura alegría que ilumina hasta el rincón más oscuro de mi día y reinicia mi mundo con una fuerza arrolladora en cada aparición.</p>
+                    </div>
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Mente Brillante</h3>
+                        <p>La forma en que descifras el universo, tus ideas audaces y tus preguntas que desafían lo convencional. Me inspiras a trascender y a crecer con cada pensamiento que compartes.</p>
+                    </div>
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Corazón Inmenso</h3>
+                        <p>El cuidado inquebrantable que pones en cada gesto, tu empatía profunda y la calidez desbordante con la que abrazas a todos a tu alrededor, un faro de compasión.</p>
+                    </div>
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Pasión Incandescente</h3>
+                        <p>Cuando te entregas a lo que amas, tus ojos brillan con una luz única, una llama que se extiende y enciende el entusiasmo en todo aquel que te rodea.</p>
+                    </div>
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Fortaleza Imparable</h3>
+                        <p>La manera colosal en que enfrentas los desafíos de la vida, con una valentía que asombra, una resiliencia inquebrantable y una gracia que te eleva por encima de cualquier adversidad.</p>
+                    </div>
+                    <div class="essence-card">
+                        <h3 class="card-heading">Tu Espíritu Radiante</h3>
+                        <p>Haces que hasta los días más sombríos se transformen en explosiones de risas y alegría, tu energía es un torbellino de felicidad que me envuelve constantemente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recuerdos" class="section-target">
+            <div class="section-hidden container">
+                <h2 class="section-heading">Constelaciones de Recuerdos</h2>
+                <p class="intro-text">Hemos tejido un mapa celestial de momentos que son mi tesoro más preciado. Cada instante compartido es una estrella brillante en la constelación eterna de nuestra historia, iluminando el camino extraordinario que hemos recorrido juntos y que aún nos espera.</p>
+                <div class="gallery-grid">
+                    <!-- Gallery Item Wrapper -->
+                    <div class="gallery-item-wrapper">
+                        <img src="01.jpeg" alt="Nuestro Primer Café" class="gallery-item">
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <img src="02.jpeg" alt="Paseo Inolvidable" class="gallery-item">
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <img src="03.jpeg" alt="Nuestra Primera Película" class="gallery-item">
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <img src="04.jpeg" alt="Risas Eternas" class="gallery-item">
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <section id="eco" class="section-target">
+            <div class="section-hidden container">
+                <h2 class="section-heading">El Eco Eterno de Tu Amor en Mí</h2>
+                <p class="intro-text">Tu llegada a mi vida no fue un simple suceso; fue una explosión cósmica, una revolución silenciosa que resonó en cada fibra de mi ser, transformando mi esencia. Me has enseñado a ver la belleza oculta en lo simple, a ser más valiente ante lo desconocido, a amar sin reservas y a encontrar la paz inefable en la profundidad de nuestra conexión.</p>
+                <div class="quote-text">
+                    <p>"Has transformado mis silencios en sinfonías épicas y mis miedos en sueños compartidos de una grandeza inigualable."</p>
+                    <p class="quote-author">— Un corazón eternamente agradecido</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="horizonte" class="section-target">
+            <div class="section-hidden container">
+                <h2 class="section-heading">Nuestro Horizonte Infinito Desplegándose</h2>
+                <p class="intro-text">Al contemplar el futuro, te veo majestuosamente en cada uno de mis sueños más ambiciosos, en cada paso audaz que doy, en cada latido de mi corazón. No sé qué épicas aventuras nos depara el camino, pero mi alma anhela recorrerlo a tu lado. Quiero seguir construyendo, riendo, aprendiendo, y creciendo contigo, día tras día, hasta el infinito. Quiero que nuestro amor sea ese faro resplandeciente que siempre nos guíe a casa, sin importar la distancia, el tiempo o los desafíos que la vida nos presente.</p>
+            </div>
+        </section>
+        
+        <section id="declaracion" class="section-target">
+            <div class="section-hidden container">
+                <h2 class="main-heading">Mi Corazón Te Pertenece Por Completo</h2>
+                <p class="declaration-text">Después de este viaje extraordinario, de cada palabra pronunciada con el alma, cada recuerdo grabado en mi memoria y cada emoción que hemos compartido, solo queda una verdad inmutable, la más simple, pura y profundamente avasalladora de todas.</p>
+                <p class="final-declaration animate-pulse-grow">
+                    Te Amo.
+                </p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Forjado con el amor más puro, exclusivamente para ti.</p>
+        <p>© 2025. Todos los derechos reservados.</p>
+    </footer>
+
+    <div id="modal">
+        <div>
+            <button id="modal-close" aria-label="Cerrar imagen ampliada">&times;</button>
+            <img id="modal-image" src="" alt="Recuerdo ampliado">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section-target');
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalClose = document.getElementById('modal-close');
+            const galleryItemWrappers = document.querySelectorAll('.gallery-item-wrapper'); // Select the wrapper
+            
+            let activeGalleryItemWrapper = null; // To keep track of the currently "touched" or "hovered" item
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2 // A lower threshold to trigger animations sooner
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelector('.section-hidden')?.classList.add('section-visible');
+                    } else {
+                        // Optional: Reset animation when section leaves view to allow re-triggering on scroll back
+                        // entry.target.querySelector('.section-hidden')?.classList.remove('section-visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            galleryItemWrappers.forEach(wrapper => {
+                const galleryItemImage = wrapper.querySelector('.gallery-item');
+                
+                // For desktop hover effect
+                wrapper.addEventListener('mouseenter', () => {
+                    wrapper.classList.add('rgb-active');
+                });
+                wrapper.addEventListener('mouseleave', () => {
+                    wrapper.classList.remove('rgb-active');
+                });
+
+                // For mobile "first touch" effect before modal opens
+                wrapper.addEventListener('touchstart', (event) => {
+                    // Prevent multiple touches from triggering
+                    if (event.touches.length > 1) return;
+
+                    // Remove active class from previous item if any, and it's not the current item
+                    if (activeGalleryItemWrapper && activeGalleryItemWrapper !== wrapper) {
+                        activeGalleryItemWrapper.classList.remove('rgb-active');
+                    }
+                    // Add active class to current item
+                    wrapper.classList.add('rgb-active');
+                    activeGalleryItemWrapper = wrapper; // Set current item as active
+                }, { passive: true }); // Use passive to avoid blocking scroll
+
+                // Event listener to open modal (click on the wrapper)
+                wrapper.addEventListener('click', () => {
+                    modalImage.src = galleryItemImage.src; // Use the image source from inside the wrapper
+                    modal.style.display = 'flex'; // Show modal
+                });
+            });
+
+            const closeModal = () => {
+                // Apply zoomOut and fadeOut animations
+                modal.querySelector('div').style.animation = 'zoomOut 0.4s forwards';
+                modal.style.animation = 'fadeOut 0.4s forwards';
+                
+                // Hide after animation
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modal.querySelector('div').style.animation = ''; // Reset animation
+                    modal.style.animation = ''; // Reset animation
+
+                    // Remove rgb-active class from the item that was active when modal closes
+                    if (activeGalleryItemWrapper) {
+                        activeGalleryItemWrapper.classList.remove('rgb-active');
+                        activeGalleryItemWrapper = null; // Reset
+                    }
+                }, 400); // Match animation duration
+            };
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
